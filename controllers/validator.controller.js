@@ -13,6 +13,11 @@ function homeRoute(req, res, next) {
   res.send(HOME_ROUTE_MESSAGE);
 }
 
+function validate(req, res, next) {
+  res.send('validation working');
+}
+
 module.exports = {
   homeRoute,
+  validate,
 };
