@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const isNumber = require('../utils/isNumber');
 const nestedObjCheck = require('../utils/checkNestedObj');
+const isArray = require('../utils/isArray');
 
 const ruleFieldSchema = Joi.object().keys({
   field: Joi.string().required(),
@@ -21,6 +22,37 @@ const ruleBodySchema = Joi.object().keys({
   rule: ruleFieldSchema.required(),
   data: dataFieldSchema.required(),
 });
+
+const conditionPicker = {
+  eq: isEqual,
+  neq: isNotEqual,
+  gt: isGreaterThan,
+  gte: isGreaterThanOrEqual,
+  contains: contains,
+};
+
+function isEqual(fieldValue, conditionValue) {
+  return fieldValue === conditionValue;
+}
+
+function isNotEqual(fieldValue, conditionValue) {
+  return fieldValue !== conditionValue;
+}
+
+function isGreaterThan(fieldValue, conditionValue) {
+  return fieldValue > conditionValue;
+}
+
+function isGreaterThanOrEqual(fieldValue, conditionValue) {
+  return fieldValue >= conditionValue;
+}
+
+function contains(fieldValue, conditionValue) {
+  if (!isArray(conditionValue)) {
+    return String(conditionValue).includes(fieldValue);
+  }
+  return [...conditionValue].includes(fieldValue);
+}
 
 function fieldCheckForDataAsObject(field, dataObj) {
   const nestedLevel = nestedObjCheck(field);
@@ -62,8 +94,8 @@ function fieldCheckForDataAsObject(field, dataObj) {
   return dataObj[field];
 }
 
-function fieldCheckForDataAsArray(field, dataObj) {
-  const fieldValue = dataObj[field];
+function fieldCheckForDataAsArray(field, dataArr) {
+  const fieldValue = dataArr[field];
   if (!fieldValue) {
     const error = new Error(`field ${field} is missing from data.`);
     error.statusCode = 400;
@@ -97,6 +129,12 @@ function fieldCheckForDataAsString(field, dataString) {
 
 module.exports = {
   ruleBodySchema,
+  conditionPicker,
+  isEqual,
+  isNotEqual,
+  isGreaterThan,
+  isGreaterThanOrEqual,
+  contains,
   fieldCheckForDataAsObject,
   fieldCheckForDataAsArray,
   fieldCheckForDataAsString,

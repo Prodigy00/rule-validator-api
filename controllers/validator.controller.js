@@ -1,3 +1,5 @@
+const { evaluate } = require('../service/rule-validation.service');
+
 function homeRoute(req, res, next) {
   res.send({
     message: 'My Rule-Validation API.',
@@ -29,7 +31,7 @@ function validate(req, res, next) {
   //determine if the data field is array, string or object
 
   const { field, condition, condition_value, data } = req.body;
-
+  const result = evaluate({ field, condition, condition_value, data });
   res.send('validation working');
 }
 
