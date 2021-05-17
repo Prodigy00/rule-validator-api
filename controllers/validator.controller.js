@@ -1,16 +1,14 @@
-const HOME_ROUTE_MESSAGE = {
-  message: 'My Rule-Validation API.',
-  status: 'success',
-  data: {
-    name: 'Gideon Idowu',
-    github: '@Prodigy00',
-    email: 'simplygiddy@gmail.com',
-    mobile: '08064999937',
-  },
-};
-
 function homeRoute(req, res, next) {
-  res.send(HOME_ROUTE_MESSAGE);
+  res.send({
+    message: 'My Rule-Validation API.',
+    status: 'success',
+    data: {
+      name: 'Gideon Idowu',
+      github: '@Prodigy00',
+      email: 'simplygiddy@gmail.com',
+      mobile: '08064999937',
+    },
+  });
 }
 
 function validate(req, res, next) {
@@ -29,6 +27,9 @@ function validate(req, res, next) {
    * data field as a string returns operation comparing str.charAt(field_val_as_number)[condition][condition_value]
    */
   //determine if the data field is array, string or object
+
+  const { field, condition, condition_value, data } = req.body;
+
   res.send('validation working');
 }
 

@@ -1,6 +1,6 @@
 const { BAD_REQUEST } = require('http-status');
 
-const ruleBodySchema = require('../models/data.model');
+const { ruleBodySchema } = require('../models/data.model');
 
 const Validator = {
   async ValidateRuleBody(req, res, next) {
