@@ -1,3 +1,3 @@
 module.exports = function isNumber(ruleFieldvalue) {
-  return Number.isNaN(+ruleFieldvalue);
+  return Number.isInteger(ruleFieldvalue);
 };

@@ -30,9 +30,11 @@ function validate(req, res, next) {
    */
   //determine if the data field is array, string or object
 
-  const { field, condition, condition_value, data } = req.body;
+  const { rule, data } = req.body;
+  const { field, condition, condition_value } = rule;
+
   const result = evaluate({ field, condition, condition_value, data });
-  res.send('validation working');
+  res.send(result);
 }
 
 module.exports = {

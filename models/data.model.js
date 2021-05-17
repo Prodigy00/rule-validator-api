@@ -31,6 +31,10 @@ const conditionPicker = {
   contains: contains,
 };
 
+function findCondition(condition) {
+  return Object.entries(conditionPicker).find((c) => condition === c[0]);
+}
+
 function isEqual(fieldValue, conditionValue) {
   return fieldValue === conditionValue;
 }
@@ -60,6 +64,7 @@ function fieldCheckForDataAsObject(field, dataObj) {
   if (nestedLevel.isBeyondTwoLevels) {
     const error = new Error('nested objects beyond two levels are not allowed');
     error.statusCode = 400;
+    error.data = null;
     throw error;
   }
 
@@ -72,6 +77,7 @@ function fieldCheckForDataAsObject(field, dataObj) {
       const missingField = fieldsArr[fieldsArr.length - 1];
       const error = new Error(`field ${missingField} is missing from data.`);
       error.statusCode = 400;
+      error.data = null;
       throw error;
     }
     return fieldValue;
@@ -86,6 +92,7 @@ function fieldCheckForDataAsObject(field, dataObj) {
       const missingField = fieldsArr[fieldsArr.length - 1];
       const error = new Error(`field ${missingField} is missing from data.`);
       error.statusCode = 400;
+      error.data = null;
       throw error;
     }
     return fieldValue;
@@ -95,23 +102,25 @@ function fieldCheckForDataAsObject(field, dataObj) {
 }
 
 function fieldCheckForDataAsArray(field, dataArr) {
+  console.log({ field, dataArr });
   const fieldValue = dataArr[field];
   if (!fieldValue) {
     const error = new Error(`field ${field} is missing from data.`);
     error.statusCode = 400;
+    error.data = null;
     throw error;
   }
   return fieldValue;
 }
 
 function fieldCheckForDataAsString(field, dataString) {
-  const fieldIsNum = isNumber(field);
-
+  const fieldIsNum = isNumber(+field);
   if (!fieldIsNum) {
     const fieldValueExists = String(dataString).includes(field);
     if (!fieldValueExists) {
       const error = new Error(`field ${field} is missing from data.`);
       error.statusCode = 400;
+      error.data = null;
       throw error;
     }
     return field;
@@ -122,6 +131,7 @@ function fieldCheckForDataAsString(field, dataString) {
   if (!fieldValue) {
     const error = new Error(`field ${field} is missing from data.`);
     error.statusCode = 400;
+    error.data = null;
     throw error;
   }
   return fieldValue;
@@ -129,7 +139,7 @@ function fieldCheckForDataAsString(field, dataString) {
 
 module.exports = {
   ruleBodySchema,
-  conditionPicker,
+  findCondition,
   isEqual,
   isNotEqual,
   isGreaterThan,
