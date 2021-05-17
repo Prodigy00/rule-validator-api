@@ -87,7 +87,7 @@ function fieldCheckForDataAsString(field, dataString) {
 
   const fieldValue = String(dataString).charAt(+field);
 
-  if (!fieldValueExists) {
+  if (!fieldValue) {
     const error = new Error(`field ${field} is missing from data.`);
     error.statusCode = 400;
     throw error;
