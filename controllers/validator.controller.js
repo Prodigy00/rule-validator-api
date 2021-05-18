@@ -18,6 +18,11 @@ function validate(req, res, next) {
   const { field, condition, condition_value } = rule;
 
   const result = evaluate({ field, condition, condition_value, data });
+
+  if (result.status === 'error') {
+    res.statusCode = 400;
+    return res.send(result);
+  }
   res.send(result);
 }
 
