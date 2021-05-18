@@ -102,7 +102,6 @@ function fieldCheckForDataAsObject(field, dataObj) {
 }
 
 function fieldCheckForDataAsArray(field, dataArr) {
-  console.log({ field, dataArr });
   const fieldValue = dataArr[field];
   if (!fieldValue) {
     const error = new Error(`field ${field} is missing from data.`);

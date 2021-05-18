@@ -195,4 +195,38 @@ describe('POST /validate-rule', () => {
       .then(() => done())
       .catch((err) => done(err));
   });
+
+  it('should respond with a 200 status code and a response object if rule validation with condition: "contains" passes', (done) => {
+    const data = {
+      rule: {
+        field: '1',
+        condition: 'contains',
+        condition_value: 'Holden',
+      },
+      data: ['James', 'Holden'],
+    };
+
+    const expectedResult = {
+      message: 'field 1 successfully validated.',
+      status: 'success',
+      data: {
+        validation: {
+          error: false,
+          field: '1',
+          field_value: 'Holden',
+          condition: 'contains',
+          condition_value: 'Holden',
+        },
+      },
+    };
+    request(app)
+      .post('/validate-rule')
+      .set('Accept', 'application/json')
+      .send(data)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect(expectedResult)
+      .then(() => done())
+      .catch((err) => done(err));
+  });
 });
