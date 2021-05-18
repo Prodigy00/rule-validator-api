@@ -17,10 +17,8 @@ describe('GET /', () => {
       .get('/')
       .expect(200)
       .expect('Content-Type', 'application/json; charset=utf-8')
-      .then((res) => {
-        expect(res.body).toMatchObject(expectedResult);
-        done();
-      })
+      .expect(expectedResult)
+      .then(() => done())
       .catch((err) => done(err));
   });
 });
