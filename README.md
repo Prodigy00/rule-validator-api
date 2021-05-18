@@ -4,6 +4,7 @@ A simple rule validation api that runs the following operations against specifie
 - neq:not equal
 - gt:greater than
 - gte:gtreater than or equal to
+- contains
 
 ## How to run
 1. Clone repo
